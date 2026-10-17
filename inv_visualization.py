@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import math
+
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
@@ -10,6 +12,23 @@ import inv_constants as C
 from inv_evaluation import Analysis, de, sci
 
 LOG_FLOOR = 1e-17                      # Untergrenze der Logarithmus-Achsen: exakte Nullen würden sonst fehlen
+
+
+def _ref_line(fig, value, text, position, axis, log=True, **line_kwargs):
+    """Referenzlinie mit Beschriftung auf einer logarithmischen Achse: die Linie liegt auf dem Datenwert, die Beschriftung braucht log10 des Werts
+    (add_hline und add_vline setzen beide auf denselben Wert, die Beschriftung sitzt dann falsch und dehnt die Achse); log=False für lineare Achsen."""
+    if log and not value > 0.0:
+        return
+    pos = math.log10(value) if log else value
+    top, left = "top" in position, "left" in position
+    if axis == "y":
+        fig.add_hline(y=value, **line_kwargs)
+        if text:
+            fig.add_annotation(xref="paper", yref="y", x=0 if left else 1, y=pos, text=text, showarrow=False, xanchor="left" if left else "right", yanchor="bottom" if top else "top")
+    else:
+        fig.add_vline(x=value, **line_kwargs)
+        if text:
+            fig.add_annotation(xref="x", yref="paper", x=pos, y=1 if top else 0, text=text, showarrow=False, xanchor="right" if left else "left", yanchor="top" if top else "bottom")
 
 
 def _fixed(fig: go.Figure, height: int = 380, **layout) -> go.Figure:
@@ -68,7 +87,7 @@ def build_picard_chart(a: Analysis) -> go.Figure:
     fig.add_trace(go.Scatter(x=idx, y=np.maximum(a.sv, LOG_FLOOR), mode="lines+markers", name="Singulärwert σᵢ", line=dict(color=C.COLOR_TRUTH, width=2.5)))
     fig.add_trace(go.Scatter(x=idx, y=np.maximum(a.coef, LOG_FLOOR), mode="markers", name="Komponente |uᵢᵀ b| der Daten", marker=dict(size=7, color=C.COLOR_NAIVE)))
     if a.sigma > 0.0:
-        fig.add_hline(y=a.sigma, line=dict(color="#888888", dash="dash"), annotation_text="Rauschen σ", annotation_position="top right")
+        _ref_line(fig, a.sigma, "Rauschen σ", "top right", "y", line=dict(color="#888888", dash="dash"))
         fig.add_vline(x=a.kstar + 0.5, line=dict(color=C.COLOR_CRIME, dash="dot"), annotation_text=f"k* = {a.kstar}", annotation_position="top left")
     fig.update_xaxes(title="Index i")
     fig.update_yaxes(title="Betrag", type="log", tickformat=".0e", range=[-17, 1])
@@ -82,7 +101,7 @@ def build_grid_chart(rows: list[dict]) -> go.Figure:
     fig.add_trace(go.Scatter(x=ns, y=[max(r["honest"], LOG_FLOOR) for r in rows], mode="lines+markers", name="ehrliche Daten", line=dict(color=C.COLOR_HONEST, width=2.5)))
     fig.add_trace(go.Scatter(x=ns, y=[max(r["crime"], LOG_FLOOR) for r in rows], mode="lines+markers", name="Daten aus demselben Gitter", line=dict(color=C.COLOR_CRIME, width=2.5)))
     fig.add_trace(go.Scatter(x=ns, y=[r["closed"] for r in rows], mode="lines", name="geschlossene Formel (nur Rauschen)", line=dict(color="#888888", dash="dot", width=2)))
-    fig.add_hline(y=1.0, line=dict(color=C.COLOR_NAIVE, dash="dash"), annotation_text="100 % der Signalnorm", annotation_position="bottom right")
+    _ref_line(fig, 1.0, "100 % der Signalnorm", "bottom right", "y", line=dict(color=C.COLOR_NAIVE, dash="dash"))
     fig.update_xaxes(title="Gitterpunkte n", tickvals=ns)
     fig.update_yaxes(title="Relativer Fehler", type="log", tickformat=".0e")
     return _fixed(fig, 400)
