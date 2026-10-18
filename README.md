@@ -1,5 +1,7 @@
 # Das schlecht gestellte Problem: genauer messen macht es schlimmer – Streamlit-Demo
 
+**[→ Demo live ausprobieren](https://sebastianhanisch-schlecht-gestellt-demo.streamlit.app/)**
+
 Erstes Stück der Linie **Inverse Probleme und Regularisierung** in der „Konzepte“-Reihe im Portfolio von [Sebastian Hanisch](https://sebastianhanisch.net) (Operations Research und Machine Learning) und die erste Demo des Portfolios, in der eine Größe aus ihrer unscharfen, verrauschten Messung rekonstruiert wird. Vehikel ist neutral: ein Phantom aus zwei Hügeln und einem Kasten, das mit einer Gauß-Unschärfe gemessen wird. Die Wahrheit ist bekannt, weil das Phantom selbst die Wahrheit ist.
 
 ## Kernfrage
