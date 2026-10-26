@@ -100,6 +100,19 @@ Weiter unten: vier Experimente (**🔬**), **🚧 Wo die Annahmen enden** und de
 """
 )
 
+# erklaerseite:einfach:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/inverse-probleme-erklaert.json, nicht von Hand ändern)
+with st.expander("💬 In einfachen Worten"):
+    st.markdown(
+        """
+Stellen Sie sich eine Kurve mit zwei Hügeln und einem Kasten vor. Ein Messgerät verwischt sie und liest die Werte mit etwas zufälligem Zittern ab, dem **Rauschen**. Gesucht ist die ursprüngliche Kurve. Die Demo kennt sie, weil sie am Rechner erfunden wurde, und kann jedes Ergebnis an ihr messen. Wer die Verwischung einfach rückwärts rechnet, macht dasselbe wie ein Schärfen-Regler, der zu weit aufgedreht ist: Das Zittern wird mitverstärkt, und das Ergebnis kann weit neben der Wahrheit liegen. Eine solche Aufgabe heißt **schlecht gestellt**, weil winzige Fehler in den Messwerten das Ergebnis völlig verändern.
+
+Dazu zeigt die Demo drei Dinge. Ein feineres Gitter, also mehr Punkte zum Messen und Rechnen, hilft zuerst und schadet danach. Weniger Rauschen hilft nur langsam. Und ein Test, dessen Daten aus demselben Rechengitter stammen wie die Rückrechnung, sieht besser aus, als er ist. Ein Gegenmittel, die **Regularisierung**, behandeln die weiteren Demos zu diesem Thema.
+
+[Ausführlich und verständlich erklärt, mit Fachteil](https://sebastianhanisch.net/inverse-probleme-erklaert.html)
+        """
+    )
+# erklaerseite:einfach:end
+
 with st.expander("So funktioniert die direkte Inversion", expanded=True):
     st.markdown(
         r"""
@@ -270,6 +283,28 @@ st.markdown(
 st.markdown("---")
 
 with st.expander("📐 Mathematische Formulierung"):
+    # erklaerseite:lesehilfe:start (erzeugt von tools/set_demo_explainer.py (Website-Repo) aus tools/content/explainers/inverse-probleme-erklaert.json, nicht von Hand ändern)
+    st.markdown(
+        r"""
+**Lesehilfe.** Gegeben ist eine Messung $b$, die aus der unbekannten Wahrheit $x$ durch eine Unschärfe-Matrix $A$ und Rauschen $e$ entsteht: $b = A x + e$. Gesucht ist $x$. Die direkte Inversion rechnet $\hat x = V\,\mathrm{diag}(1/\sigma_i)\,U^\top b$ und verstärkt dabei das Rauschen.
+
+| Symbol | Bedeutung |
+|---|---|
+| $x$, $b$, $e$ | Wahrheit auf dem Gitter, Messung und Rauschen |
+| $A = hK$ | Unschärfe-Matrix auf dem Gitter mit Schrittweite $h = 1/n$ (Mittelpunktregel) |
+| $w$, $n$ | Breite der Gauß-Unschärfe und Zahl der Gitterpunkte |
+| $\sigma$ | Standardabweichung des Rauschens |
+| $\sigma_i$ | Singulärwerte von $A$: wie stark die Unschärfe die $i$-te feine Komponente dämpft |
+| $U$, $V$ | Singulärvektoren von $A$ (Basis der Daten bzw. der Wahrheit) |
+| $\kappa = \sigma_1/\sigma_n$ | Kondition: größtmögliche Verstärkung einer Störung durch die Inversion |
+| $\hat x$ | Rekonstruktion durch die direkte Inversion |
+| $x_n$ | Wahrheit, ausgewertet auf dem Gitter |
+| $k^*$ | Zahl der Komponenten der exakten Daten, die über dem Rauschen liegen |
+
+[Schritt für Schritt erklärt, mit Herleitung und Literatur](https://sebastianhanisch.net/inverse-probleme-erklaert.html#fachleute)
+        """
+    )
+    # erklaerseite:lesehilfe:end
     st.markdown(
         r"""
 **Vorwärtsmodell.** Die Wahrheit $x$ auf $[0,1]$ wird mit dem Gauß-Kern $k(u) = \exp(-u^2/(2w^2))/(w\sqrt{2\pi})$ unscharf gemessen:
