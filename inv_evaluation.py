@@ -247,7 +247,7 @@ def verdict_noise(res: dict) -> tuple[str, str]:
     std = next(r for r in rows if abs(r["w"] - C.DEFAULT_W) < 1e-9)
     easy = rows[0]
     return "info", (f"In der Standardinstanz (w = {de(std['w'], 3)}) wird die direkte Inversion schon bei {pct(100.0 * std['threshold'])} % Rauschen wertlos; "
-                    f"bei w = {de(easy['w'], 3)} wäre es erst bei {pct(100.0 * easy['threshold'])} %. Je 0,005 mehr Unschärfe kostet eine bis drei Größenordnungen.")
+                    f"bei w = {de(easy['w'], 3)} wäre es erst bei {pct(100.0 * easy['threshold'])} %. Je 0,005 mehr Unschärfe kostet etwa 0,4 bis 1,7 Größenordnungen.")
 
 
 def verdict_crime(rows: list[dict]) -> tuple[str, str]:

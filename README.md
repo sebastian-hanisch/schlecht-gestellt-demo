@@ -50,7 +50,7 @@ Standardinstanz (n = 48, w = 0,03, Rauschen 0,1 %, Seed 35), wenn nicht anders g
 ## Befunde und Korrekturen gegenüber dem Plan
 
 - **Standardinstanz gewechselt.** Der Plan sah zuerst n = 64, w = 0,04 vor; dort liegt die Kondition bei 2,3·10¹³ und der Fehler bei 10⁹, nicht mehr zeichenbar. n = 48, w = 0,03 gibt 258 %.
-- **Das Verbrechen ist nur im harmlosen Bereich sichtbar.** Im harten Bereich (Standard) ist das Rauschen größer als der Modellfehler, mit Daten aus demselben Gitter und ehrlichen Daten ist der Fehler gleich (258 % und 259 %). Der Unterschied zeigt sich ohne Rauschen und bei kleiner Kondition (n = 48, w = 0,02: 1,4 % gegen 11 %).
+- **Das Verbrechen ist nur im harmlosen Bereich sichtbar.** Im harten Bereich (Standard) ist das Rauschen größer als der Modellfehler, mit Daten aus demselben Gitter und ehrlichen Daten ist der Fehler gleich (ehrlich 258 %, aus demselben Gitter 259 %). Der Unterschied zeigt sich ohne Rauschen und bei kleiner Kondition (n = 48, w = 0,02: 1,4 % gegen 11 %).
 - **Die Kondition ist ein Anzeiger, nicht die exakte Größe.** Fehler/(Rauschen · Kondition) liegt in drei Instanzen bei 0,21 / 0,23 / 0,20; exakt ist die geschlossene Formel.
 - **Der Modellfehler fällt nicht glatt mit n.** Bei n = 48 liegen die Kastenkanten auf halben Zellen (5,2 %), bei n = 32 fast auf Zellgrenzen (1,9 %).
 
